@@ -1,0 +1,8 @@
+name: PriceCalculator
+version: 1.0
+author: FebanHD
+main: de.febanhd.pricecalculator.PriceCalculator
+api-version: 1.13
+
+commands:
+  pricecalculator:
