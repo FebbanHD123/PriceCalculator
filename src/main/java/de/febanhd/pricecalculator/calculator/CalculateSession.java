@@ -3,6 +3,8 @@ package de.febanhd.pricecalculator.calculator;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.util.concurrent.AtomicDouble;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import de.febanhd.pricecalculator.PriceCalculator;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -120,19 +122,14 @@ public class CalculateSession {
         if (!PriceCalculator.getPlugin(PriceCalculator.class).getDataFolder().exists()) {
             PriceCalculator.getPlugin(PriceCalculator.class).getDataFolder().mkdir();
         }
-        File file = new File(PriceCalculator.getPlugin(PriceCalculator.class).getDataFolder(), "prices#" + id + ".txt");
+        File file = new File(PriceCalculator.getPlugin(PriceCalculator.class).getDataFolder(), "prices#" + id + ".json");
         if (!file.exists()) {
             file.createNewFile();
         }
-        StringBuilder sb = new StringBuilder();
-        this.PRICES.forEach((material, price) -> {
-            sb.append(material.name().toLowerCase(Locale.ROOT)).append(": ").append(price);
-            sb.append("\n");
-        });
         FileWriter writer = null;
         try {
             writer = new FileWriter(file);
-            writer.write(sb.toString());
+            writer.write(new GsonBuilder().setPrettyPrinting().create().toJson(this.PRICES));
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
